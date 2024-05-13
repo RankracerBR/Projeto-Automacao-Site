@@ -48,7 +48,7 @@ def agendar_compromisso(nome, data, hora, horafinal):
             EC.presence_of_element_located((By.CSS_SELECTOR, "#email"))
         )
         email_field.click()
-        email_field.send_keys("consultasbrunaduarte@gmail.com")
+        email_field.send_keys("")
 
         # Simula um clique no campo de senha antes de preenchê-lo
         senha_field = WebDriverWait(driver, 10).until(
