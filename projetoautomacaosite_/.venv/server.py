@@ -1,14 +1,22 @@
 from flask import Flask, request, render_template
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 import time
 import requests
 from datetime import datetime
 
 app = Flask(__name__)
+
+chrome_options = Options()
+chrome_options.add_argument('--no-sandbox')
+chrome_options.add_argument('--headless')
+chrome_options.add_argument('--disable-dev-shm-usage')
 
 # Função para enviar o webhook
 def enviar_webhook(mensagem):
@@ -29,8 +37,7 @@ def agendar_compromisso(nome, data, hora, horafinal):
     data_datetime = datetime.strptime(data, '%Y-%m-%d')  # Correto: formato %Y-%m-%d
     data_formatada = data_datetime.strftime('%d/%m/%Y')  # Correto: formato %d/%m/%Y
 
-    # Inicializa o driver do Chrome
-    driver = webdriver.Chrome()
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install(), options=chrome_options))
 
     try:
         # Acessa o site
@@ -64,6 +71,9 @@ def agendar_compromisso(nome, data, hora, horafinal):
         agendar_button = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.XPATH, '//*[@id="calendar-content"]/div[1]/div[3]/freud-button/p-button/button'))
         )
+
+        # Scroll the element into view
+        driver.execute_script("arguments[0].scrollIntoView();", agendar_button)
 
         # Clica no botão "AGENDAR +"
         agendar_button.click()
@@ -190,7 +200,9 @@ def agendar_compromisso(nome, data, hora, horafinal):
         # Fecha o navegador
         driver.quit()
 
-    return "Compromisso agendado com sucesso para {} em {} às {}".format(nome, data_formatada, hora, horafinal)
+    return "Compromisso agendado com sucesso para {} em {} às {} e {}".format(
+            nome, data_formatada, hora_inicio_input.get_attribute('value'), 
+            hora_fim_input.get_attribute('value'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0',port=5000,debug=True)
