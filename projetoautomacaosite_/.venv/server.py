@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, render_template
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
@@ -14,13 +14,13 @@ from datetime import datetime
 app = Flask(__name__)
 
 chrome_options = Options()
-chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--disable-dev-shm-usage')
+# chrome_options.add_argument('--no-sandbox')
+# chrome_options.add_argument('--headless')
+# chrome_options.add_argument('--disable-dev-shm-usage')
 
 # Função para enviar o webhook
 def enviar_webhook(mensagem):
-    url = "https://webhook.n8n.agenciataruga.com/webhook/df4b672e-3c16-4490-b8fb-47fa6eeeadd0"
+    url = ""
     payload = {"mensagem": mensagem}
     response = requests.post(url, json=payload)
     print("Enviando webhook para:", url)
@@ -41,7 +41,7 @@ def agendar_compromisso(nome, data, hora, horafinal):
 
     try:
         # Acessa o site
-        driver.get("https://office.zenklub.com.br/")
+        driver.get("")
 
         # Simula um clique no campo de e-mail e preenche com o e-mail
         email_field = WebDriverWait(driver, 10).until(
@@ -57,7 +57,7 @@ def agendar_compromisso(nome, data, hora, horafinal):
         senha_field.click()
 
         # Preenche o campo de senha com a senha
-        senha_field.send_keys("Zenk@20244@")
+        senha_field.send_keys("")
 
         # Clica no botão de login
         login_button = WebDriverWait(driver, 10).until(
@@ -165,6 +165,8 @@ def agendar_compromisso(nome, data, hora, horafinal):
         agendar_button.click()
 
         print("Clique no botão 'AGENDAR' realizado com sucesso!")
+        hora_inicio = hora_inicio_input.get_property('value')
+        hora_fim = hora_fim_input.get_property('value')
 
         # Aguarda a presença da mensagem de sucesso ou erro
         for _ in range(5):
@@ -201,8 +203,7 @@ def agendar_compromisso(nome, data, hora, horafinal):
         driver.quit()
 
     return "Compromisso agendado com sucesso para {} em {} às {} e {}".format(
-            nome, data_formatada, hora_inicio_input.get_attribute('value'), 
-            hora_fim_input.get_attribute('value'))
+    nome, data_formatada, hora_inicio, hora_fim)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=5000,debug=True)
+    app.run(debug=True)
