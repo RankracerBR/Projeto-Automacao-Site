@@ -45,14 +45,14 @@ def agendar_compromisso(nome, data, hora, horafinal):
 
         # Simula um clique no campo de e-mail e preenche com o e-mail
         email_field = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "#email"))
+            EC.presence_of_element_located(( ""))
         )
         email_field.click()
         email_field.send_keys("")
 
         # Simula um clique no campo de senha antes de preenchê-lo
         senha_field = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "/html/body/app-root/app-login/section/div[1]/form/zk-input[2]/label/input"))
+            EC.presence_of_element_located(( ""))
         )
         senha_field.click()
 
@@ -61,7 +61,7 @@ def agendar_compromisso(nome, data, hora, horafinal):
 
         # Clica no botão de login
         login_button = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, "/html/body/app-root/app-login/section/div[1]/form/div/button"))
+            EC.element_to_be_clickable(( ""))
         )
         login_button.click()
 
@@ -69,7 +69,7 @@ def agendar_compromisso(nome, data, hora, horafinal):
 
         # Aguarda a presença do botão "AGENDAR +"
         agendar_button = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, '//*[@id="calendar-content"]/div[1]/div[3]/freud-button/p-button/button'))
+            EC.presence_of_element_located(( ''))
         )
 
         # Scroll the element into view
@@ -85,18 +85,18 @@ def agendar_compromisso(nome, data, hora, horafinal):
 
         # Clica no botão "COMPROMISSO PARTICIPAR"
         compromisso_button = WebDriverWait(driver, 2).until(
-            EC.element_to_be_clickable((By.XPATH, '//*[@id="bodyCalendar"]/app-root/app-calendar/appointment-sidebar/modal-sidebar/div/div/div[1]/div/div/freud-select-button/p-selectbutton/div/div[3]'))
+            EC.element_to_be_clickable(( ''))
         )
         compromisso_button.click()
 
         print("Clique no botão 'COMPROMISSO PARTICIPAR' realizado com sucesso!")
 
         # Aguarda 20 segundos após clicar em "COMPROMISSO PARTICIPAR"
-        WebDriverWait(driver, 2).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'textarea[placeholder="Escreva aqui"]')))
+        WebDriverWait(driver, 2).until(EC.presence_of_element_located(( '"]')))
 
         # Localiza o campo "COMPROMISSO PARTICIPAR" e preenche com "EVENTO TESTE"
         compromisso_textarea = WebDriverWait(driver, 2).until(
-            EC.element_to_be_clickable((By.XPATH, '//textarea[@placeholder="Escreva aqui"]'))
+            EC.element_to_be_clickable(( '"]'))
         )
         compromisso_textarea.clear()
         compromisso_textarea.send_keys(nome)
@@ -113,7 +113,7 @@ def agendar_compromisso(nome, data, hora, horafinal):
 
         # Localiza o campo de data pelo placeholder
         data_input = WebDriverWait(driver, 1).until(
-            EC.element_to_be_clickable((By.XPATH, '//p-calendar//input[@aria-required="true"]'))
+            EC.element_to_be_clickable(( ''))
         )
 
         # Cola a data recebida no campo de data
@@ -129,7 +129,7 @@ def agendar_compromisso(nome, data, hora, horafinal):
 
         # Localiza o campo de hora de início e limpa o conteúdo
         hora_inicio_input = WebDriverWait(driver, 1).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, '#initialTime > div > p-calendar > span > input'))
+            EC.element_to_be_clickable(( ''))
         )
         hora_inicio_input.send_keys(Keys.CONTROL + 'a')  # Seleciona todo o conteúdo
         hora_inicio_input.send_keys(Keys.DELETE)         # Apaga o conteúdo
@@ -147,7 +147,7 @@ def agendar_compromisso(nome, data, hora, horafinal):
 
         # Localiza o campo de hora de término e limpa o conteúdo
         hora_fim_input = WebDriverWait(driver, 1).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, '#finalTime > div > p-calendar > span > input'))
+            EC.element_to_be_clickable(( ''))
         )
         hora_fim_input.send_keys(Keys.CONTROL + 'a')  # Seleciona todo o conteúdo
         hora_fim_input.send_keys(Keys.DELETE)         # Apaga o conteúdo
@@ -160,7 +160,7 @@ def agendar_compromisso(nome, data, hora, horafinal):
 
         # Localiza e clica no botão "AGENDAR"
         agendar_button = WebDriverWait(driver, 1).until(
-            EC.element_to_be_clickable((By.XPATH, '//*[@id="bodyCalendar"]/app-root/app-calendar/appointment-sidebar/modal-sidebar/div/div/div[3]/div/freud-button[2]/p-button/button'))
+            EC.element_to_be_clickable(( ''))
         )
         agendar_button.click()
 
@@ -173,7 +173,7 @@ def agendar_compromisso(nome, data, hora, horafinal):
             try:
                 # Verifica se a mensagem de sucesso está presente
                 mensagem_sucesso = WebDriverWait(driver, 2).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, 'div.p-toast-message-success'))
+                    EC.presence_of_element_located(( ''))
                 )
                 print("Compromisso salvo com sucesso!")
                 # Envia webhook de sucesso
@@ -184,7 +184,7 @@ def agendar_compromisso(nome, data, hora, horafinal):
             try:
                 # Verifica se a mensagem de erro está presente
                 mensagem_erro = WebDriverWait(driver, 2).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, 'div.p-toast-message-error'))
+                    EC.presence_of_element_located(( ''))
                 )
                 print("Erro ao agendar compromisso!")
                 # Envia webhook de erro
